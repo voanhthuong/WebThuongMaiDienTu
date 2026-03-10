@@ -1,0 +1,49 @@
+require('dotenv').config();
+
+const express = require("express")
+const dotenv = require("dotenv")
+const { default: mongoose } = require("mongoose")
+const routes = require("./routes")
+const cors = require("cors")
+const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
+dotenv.config()
+
+
+const app = express()
+app.use(express.json({ limit: '50mb' }));  // Giới hạn payload JSON là 50MB | trước khi có BannerController là 10MB
+app.use(express.urlencoded({ limit: '50mb', extended: true })); // Giới hạn payload URL-encoded là 50MB | trước khi có BannerController là 10MB
+const port = process.env.PORT || 3001
+const url = process.env.URL
+
+app.use(cookieParser())
+
+
+
+// app.use(cors())
+app.use(cors({
+    // origin: '*', // Đúng với frontend của bạn
+    origin: ['http://localhost:3000', 'https://doanthuctap-9og6.onrender.com', 'https://do-an-thuc-tap.vercel.app', url],
+    credentials: true,
+}));
+app.use(bodyParser.json())
+
+
+routes(app);
+
+
+
+
+
+mongoose.connect(`${process.env.MONGO_DB}`)
+    .then(() => {
+        console.log("Connected succesfully!")
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+
+
+app.listen(port, '0.0.0.0', () => {
+    console.log("Server is running on port: " + port)
+})
