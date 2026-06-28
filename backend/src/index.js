@@ -23,7 +23,7 @@ app.use(cookieParser())
 // app.use(cors())
 app.use(cors({
     // origin: '*', // Đúng với frontend của bạn
-    origin: ['http://localhost:3000', 'https://doanthuctap-9og6.onrender.com', 'https://do-an-thuc-tap.vercel.app', url],
+    origin: ['http://localhost:3000', 'https://webthuongmaidientu-75hg.onrender.com', 'https://web-thuong-mai-dien-tu.vercel.app', url],
     credentials: true,
 }));
 app.use(bodyParser.json())
